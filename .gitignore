@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.env.test
+*.log
+logs/
+.DS_Store
+coverage/
+.prisma/
+*.db
+*.tar.gz
+tmp/
+.opencode/
+.swarm/

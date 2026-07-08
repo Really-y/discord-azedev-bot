@@ -1,0 +1,45 @@
+{
+  "name": "azedev-bot",
+  "version": "1.0.0",
+  "description": "Azedev OS — community management and gamification Discord bot for Azedev",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/",
+    "format": "prettier --write src/",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
+  },
+  "dependencies": {
+    "@google/genai": "^0.7.0",
+    "@prisma/client": "^5.18.0",
+    "discord.js": "^14.16.3",
+    "groq-sdk": "^0.7.0",
+    "node-cron": "^3.0.3",
+    "ssh2": "^1.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.5",
+    "@types/node-cron": "^3.0.11",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "prisma": "^5.18.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

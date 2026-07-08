@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String              @id @default(uuid())
+  discordId      String              @unique
+  username       String
+  azcPoints      Int                 @default(0)
+  xp             Int                 @default(0)
+  level          Int                 @default(1)
+  lastActive     DateTime?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  transactions   Transaction[]
+  participations DailyParticipation[]
+  coffeePairsAsUser1 CoffeePair[] @relation("CoffeePairUser1")
+  coffeePairsAsUser2 CoffeePair[] @relation("CoffeePairUser2")
+
+  @@index([azcPoints])
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  amount      Int
+  type        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model DailyQuestion {
+  id             String               @id @default(uuid())
+  question       String
+  date           DateTime             @unique
+  createdBy      String
+  createdAt      DateTime             @default(now())
+  participations DailyParticipation[]
+}
+
+model DailyParticipation {
+  id         String        @id @default(uuid())
+  userId     String
+  user       User          @relation(fields: [userId], references: [id])
+  questionId String
+  question   DailyQuestion @relation(fields: [questionId], references: [id])
+  response   String
+  createdAt  DateTime      @default(now())
+
+  @@unique([userId, questionId])
+}
+
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model CoffeePair {
+  id       String   @id @default(uuid())
+  user1Id  String
+  user1    User     @relation("CoffeePairUser1", fields: [user1Id], references: [id])
+  user2Id  String
+  user2    User     @relation("CoffeePairUser2", fields: [user2Id], references: [id])
+  pairedAt DateTime @default(now())
+  week     String
+
+  @@index([user1Id])
+  @@index([user2Id])
+  @@index([week])
+}
