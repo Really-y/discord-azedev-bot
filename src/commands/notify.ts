@@ -21,15 +21,53 @@ import {
 import { handleError } from "../utils/errorHandler";
 import { USER_FACING_ERRORS } from "../utils/constants";
 
+const DEFAULT_ANNOUNCEMENT = [
+  "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+  "",
+  "📢 **Azedev OS — Bot Features / Bot Funksiyaları**",
+  "",
+  "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+  "",
+  "⭐ **AzC Points**",
+  "  EN: Earn points by helping others and participating in discussions.",
+  "  AZ: Kömək etdikcə və müzakirələrdə iştirak etdikcə xal qazanın.",
+  "",
+  "📈 **XP & Levels / Səviyyələr**",
+  "  EN: Gain XP from messages and activities. Level up to unlock roles!",
+  "  AZ: Mesaj və aktivliklə XP qazanın. Səviyyə atlayıb rollar açın!",
+  "  • Level 5 → @Active Member",
+  "  • Level 10 → @Veteran",
+  "  • Level 20 → @Elite",
+  "",
+  "☕ **Coffee Roulette**",
+  "  EN: Random pairings every Friday. Meet new people!",
+  "  AZ: Hər cümə təsadüfi cütlüklər. Yeni insanlarla tanış olun!",
+  "",
+  "📅 **Daily Question / Günün Sualı**",
+  "  EN: AI-powered discussion topic every day at 10:00.",
+  "  AZ: Hər gün saat 10:00-da AI ilə müzakirə mövzusu.",
+  "  🔔 Click the button to toggle daily ping notifications!",
+  "",
+  "💬 **Commands / Əmrlər**",
+  "  `/profile` — View your stats / Statistikaya bax",
+  "  `/leaderboard` — Top contributors / Liderlik tablosu",
+  "  `/daily` — Daily question / Günün sualı",
+  "  `!thanks @user` — Award 10 AzC Points / 10 xal ver",
+  "",
+  "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+  "",
+  "Welcome to the community! / İcmaya xoş gəldiniz! 🎉",
+].join("\n");
+
 export const notifyCommand: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName("notify")
-    .setDescription("Send an @everyone announcement (admin) / Duyuru göndər (admin)")
+    .setDescription("Send @everyone announcement (admin) / Duyuru göndər (admin)")
     .addStringOption((opt) =>
       opt
         .setName("message")
-        .setDescription("Announcement text / Duyuru mətni")
-        .setRequired(true),
+        .setDescription("Custom message (optional) / İstəyə bağlı mətn")
+        .setRequired(false),
     )
     .addChannelOption((opt) =>
       opt
@@ -42,7 +80,7 @@ export const notifyCommand: SlashCommand = {
     try {
       if (!interaction.guild) {
         await interaction.reply({
-          embeds: [warningEmbed("Server Only", "This command only works in a server.")],
+          embeds: [warningEmbed("Server Only / Yalnız serverdə", "This command only works in a server.")],
           ephemeral: true,
         });
         return;
@@ -56,32 +94,32 @@ export const notifyCommand: SlashCommand = {
 
       if (!isAdminUser && !hasAdminPerm) {
         await interaction.reply({
-          embeds: [errorEmbed("Permission Denied", USER_FACING_ERRORS.noPermission)],
+          embeds: [errorEmbed("Permission Denied / İcazə yoxdur", USER_FACING_ERRORS.noPermission)],
           ephemeral: true,
         });
         return;
       }
 
-      const message = interaction.options.getString("message", true);
+      const customMessage = interaction.options.getString("message");
+      const message = customMessage ?? DEFAULT_ANNOUNCEMENT;
+
       const targetChannel =
         (interaction.options.getChannel("channel") as TextChannel | null) ??
         (interaction.channel as TextChannel | null);
 
       if (!targetChannel || !(targetChannel instanceof TextChannel)) {
         await interaction.reply({
-          embeds: [errorEmbed("Channel Error", "Could not find the target channel.")],
+          embeds: [errorEmbed("Channel Error / Kanal xətası", "Could not find the target channel.")],
           ephemeral: true,
         });
         return;
       }
 
-      const embed = brandEmbed("📢 Announcement / Duyuru", message)
-        .addFields({
-          name: "Sent by / Göndərən",
-          value: `${interaction.user}`,
-          inline: false,
-        })
-        .setTimestamp();
+      const embed = brandEmbed("📢 Azedev OS").addFields({
+        name: "Sent by / Göndərən",
+        value: `${interaction.user}`,
+        inline: false,
+      }).setTimestamp();
 
       await interaction.reply({
         embeds: [successEmbed("Sent / Göndərildi", `Announcement posted to ${targetChannel}.`)],
@@ -89,7 +127,7 @@ export const notifyCommand: SlashCommand = {
       });
 
       await targetChannel.send({
-        content: `@everyone`,
+        content: `@everyone\n\n${message}`,
         embeds: [embed],
         allowedMentions: { parse: ["everyone"] },
       });
