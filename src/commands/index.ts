@@ -45,14 +45,13 @@ export async function registerCommands(_client: Client<true>): Promise<void> {
   const rest = new REST({ version: "10" }).setToken(token);
   const body = slashCommands.map((cmd) => cmd.data.toJSON());
 
-  const isDev = process.env.NODE_ENV !== "production";
   const guildId = process.env.DISCORD_GUILD_ID;
 
-  if (isDev && guildId) {
+  if (guildId) {
     await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
       body,
     });
-    logger.info(`Registered ${body.length} slash commands to dev guild ${guildId}`);
+    logger.info(`Registered ${body.length} slash commands to guild ${guildId}`);
   } else {
     await rest.put(Routes.applicationCommands(clientId), { body });
     logger.info(`Registered ${body.length} slash commands globally`);
