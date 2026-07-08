@@ -158,32 +158,50 @@ export function coffeeRouletteEmbed(
 
 export function helpEmbed(): EmbedBuilder {
   return baseEmbed(BRAND_COLOR)
-    .setTitle("Azedev OS — Help")
-    .setDescription("Community management and gamification bot for Azedev.")
+    .setTitle("Azedev OS — Help / Kömək")
+    .setDescription(
+      "Community management & gamification bot for Azedev.\n" +
+      "Azedev icması üçün idarəetmə və gamifikasiya botu.",
+    )
     .addFields(
       {
-        name: "Slash Commands",
+        name: "📱 Slash Commands / Əmrlər",
         value: [
-          "`/profile [user]` — View your profile or someone else's",
-          "`/leaderboard` — Top contributors leaderboard",
-          "`/daily [action]` — Daily question (view / trigger)",
-          "`/ayar` — Channel and role settings (admin)",
-          "`/help` — This help menu",
+          "`/profile [user]` — View profile / Profilə bax",
+          "`/leaderboard` — Leaderboard / Liderlik tablosu",
+          "`/daily [action]` — Daily question / Günün sualı",
+          "`/notify` — Send announcement / Duyuru göndər (admin)",
+          "`/ayar` — Bot settings / Bot ayarları (admin)",
+          "`/help` — This menu / Bu menyu",
         ].join("\n"),
         inline: false,
       },
       {
-        name: "Prefix Commands",
-        value: "`!thanks @user` — Award 10 AzC Points to someone",
+        name: "💬 Prefix Command / Prefik əmri",
+        value: "`!thanks @user` — Award 10 AzC Points / 10 AzC Points ver",
         inline: false,
       },
       {
-        name: "Systems",
+        name: "⭐ Systems / Sistemlər",
         value: [
-          "• **AzC Points** — earned by helping and participating",
-          "• **XP & Levels** — increase through activity",
-          "• **Coffee Roulette** — weekly random pairings every Friday",
-          "• **Daily Question** — AI-powered daily discussion topic",
+          "• **AzC Points** — earn by helping / kömək etdikcə qazan",
+          "• **XP & Levels / Səviyyələr** — activity rewards / aktivliyə görə",
+          "• **Level Roles / Səviyyə rolları**: lvl 5 → @Active Member, 10 → @Veteran, 20 → @Elite",
+          "• **Coffee Roulette ☕** — random pairings Fri / Cümə günü cütlüklər",
+          "• **Daily Question 📅** — AI discussion every 10:00 / hər gün 10:00",
+          "• **Ping Notif 🔔** — toggle daily ping via button / button ilə tənzimlə",
+        ].join("\n"),
+        inline: false,
+      },
+      {
+        name: "🛠️ Admin / Admin",
+        value: [
+          "`/ayar channel` — Set channels / Kanal təyin et",
+          "`/ayar role` — Set roles / Rol təyin et",
+          "`/ayar setup` — Auto-create channels & roles / Avtomatik yarat",
+          "`/ayar admin` — Manage admins / Admin idarə et",
+          "`/ayar view` — View settings / Ayarlara bax",
+          "`/notify` — Send @everyone announcement / Duyuru göndər",
         ].join("\n"),
         inline: false,
       },

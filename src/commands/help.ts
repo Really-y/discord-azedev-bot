@@ -7,7 +7,7 @@ import { handleError } from "../utils/errorHandler";
 export const helpCommand: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName("help")
-    .setDescription("Bot usage guide and command list") as SlashCommandBuilder,
+    .setDescription("Bot usage guide and command list / Bot istifadə qaydası") as SlashCommandBuilder,
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     try {
       await interaction.reply({ embeds: [helpEmbed()] });

@@ -10,6 +10,7 @@ import { helpCommand } from "./help";
 import { dailyCommand } from "./daily";
 import { thanksCommand } from "./thanks";
 import { ayarCommand } from "./ayar";
+import { notifyCommand } from "./notify";
 
 export const slashCommands: SlashCommand[] = [
   profileCommand,
@@ -17,6 +18,7 @@ export const slashCommands: SlashCommand[] = [
   helpCommand,
   dailyCommand,
   ayarCommand,
+  notifyCommand,
 ];
 
 export const prefixCommands: PrefixCommand[] = [thanksCommand];

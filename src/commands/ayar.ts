@@ -38,7 +38,7 @@ const ROLE_OPTIONS = [
   { value: "activ", label: "Active Member", key: SETTING_KEYS.activMemberRoleId },
   { value: "veteran", label: "Veteran", key: SETTING_KEYS.veteranRoleId },
   { value: "elit", label: "Elite", key: SETTING_KEYS.elitRoleId },
-  { value: "ping", label: "Daily Ping", key: SETTING_KEYS.pingRoleId },
+  { value: "ping_role", label: "Daily Ping", key: SETTING_KEYS.pingRoleId },
 ] as const;
 
 async function isAdmin(userId: string): Promise<boolean> {
@@ -89,7 +89,7 @@ export const ayarCommand: SlashCommand = {
               { name: "Active Member", value: "activ" },
               { name: "Veteran", value: "veteran" },
               { name: "Elite", value: "elit" },
-              { name: "Daily Ping", value: "ping" },
+              { name: "Daily Ping", value: "ping_role" },
             ),
         )
         .addRoleOption((opt) =>
